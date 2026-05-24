@@ -1,59 +1,61 @@
 # ongrid
 
-AIOps SaaS：装一个 `ongrid-edge` 到目标主机，在云端用自然语言即可完成"看负载、查丢包、定位异常进程"的排障。
+Open-source AIOps. Install a lightweight `ongrid-edge` agent on your hosts, and
+troubleshoot in natural language from the cloud — "show me the load", "what's
+dropping packets", "find the runaway process" — answered by an LLM agent that
+can read metrics, logs, traces, topology, and your registered source repos.
 
-架构概览见 [`docs/design/HLD-001-ongrid.md`](docs/design/HLD-001-ongrid.md)（含系统图、BC 切分、核心数据流）。
+> Status: early / evolving. APIs and layout may change.
 
-## Quickstart
+## How it works
+
+```
+hosts ──ongrid-edge── tunnel ──► ongrid (cloud)
+ (metrics/logs/traces,            ├─ manager: edge + telemetry + AIOps agent
+  read-only host tools)           ├─ knowledge base (RAG) + code reading
+                                  └─ web UI (chat + dashboards)
+```
+
+- **edge** (`ongrid-edge`): a single agent per host; collects metrics/logs/traces
+  and exposes read-only host inspection tools over a multiplexed tunnel.
+- **cloud** (`ongrid`): the manager + an LLM coordinator that dispatches to
+  specialist sub-agents and tools (PromQL / LogQL / TraceQL / topology /
+  knowledge-base search / source-code reading) to answer ops questions.
+
+## Build
 
 ```bash
-# 本地依赖（MySQL 等）
-make compose-up
+# Go binaries → bin/ongrid, bin/ongrid-edge
+make build            # or: make build-ongrid / build-ongrid-edge
 
-# 跑云端
-make run-ongrid
+# Frontend SPA
+cd web && npm ci && npm run build
 
-# 另一个终端跑边端
-make run-ongrid-edge
-
-# 构建二进制
-make build            # 产出 bin/ongrid 与 bin/ongrid-edge
-
-# 测试
+# Tests / lint / architecture boundaries
 make test
-make test-race
 make lint
-make arch-lint        # 校验 BC 边界（iam / manager / edgeagent 不得互 import）
+make arch-lint        # enforces BC boundaries (iam / manager / edgeagent don't cross-import)
 ```
 
-全部构建 / 镜像 / 部署动作都走 Makefile —— `make help` 列所有 target。
+`make help` lists all targets. (Note: the cloud build embeds a local ONNX
+embedder via CGO, so `ongrid` is built with `CGO_ENABLED=1`.)
 
-## Repo 布局（顶层）
+## Repo layout (top level)
 
 ```
-api/            # proto，按 BC / 子域分组
-cmd/            # ongrid / ongrid-edge 入口
+cmd/        # ongrid (cloud) + ongrid-edge entrypoints
+api/        # proto definitions, grouped by bounded context
 internal/
-  iam/          # BC 1: 登录 / JWT / Org / User
-  manager/      # BC 2: edge + metric + aiops 三子域
-  edgeagent/    # BC 3: 边端采集 & tool handler
-  pkg/          # 跨 BC 共享：auth / tunnel / llm / prom / log / conf ...
-db/migrations/  # SQL 迁移
-deploy/         # docker-compose / Dockerfile / helm
-docs/           # design / adr / prd / runbooks
-test/e2e/
+  iam/        # auth / JWT / org / user
+  manager/    # edge + telemetry + aiops subdomains
+  edgeagent/  # host collection & read-only tool handlers
+  pkg/        # shared: tunnel / llm / prom / log / conf ...
+web/        # React SPA (chat + dashboards)
+agents/     # LLM agent persona definitions
+skills/     # agent skill bundles
+scripts/    # dev/build helpers
 ```
-
-## 文档
-
-- 顶层设计：[`docs/design/HLD-001-ongrid.md`](docs/design/HLD-001-ongrid.md)
-- ADR：
-  - [ADR-001 边端隧道选 geminio](docs/adr/ADR-001-edge-tunnel-geminio.md)
-  - [ADR-002 AIOps agent 基于 OpenAI](docs/adr/ADR-002-aiops-agent-openai.md)
-  - [ADR-003 租户模型 org + user](docs/adr/ADR-003-tenant-model-org-user.md)
-  - [ADR-004 指标存储 MySQL-first](docs/adr/ADR-004-metrics-storage-mysql-first.md)
-- 贡献与质量：[`AGENTS.md`](AGENTS.md)
 
 ## License
 
-Apache-2.0 — 见 [`LICENSE`](LICENSE)。
+[Apache-2.0](LICENSE).
