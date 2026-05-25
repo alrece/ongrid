@@ -154,6 +154,13 @@ func (r *LLMSettingsResolver) ResolveProviders(ctx context.Context) ([]llm.Provi
 		if len(models) == 0 {
 			models = append(models, def.Models...)
 		}
+		// Drop duplicates so the SPA model picker never shows the same
+		// model twice. Out-of-box the OpenAI list was seeded
+		// [gpt-4o, gpt-4o, gpt-4-turbo] (the configured-model slot defaults
+		// to gpt-4o, which the base list already carries); deduping here
+		// heals existing installs at read time and guards any operator list
+		// with accidental repeats.
+		models = dedupeStrings(models)
 
 		// Default model: DB row > env default > first model in list.
 		defaultModel, _, _ := r.svc.Get(ctx, model.CategoryLLM, pk.defaultModel)
@@ -210,6 +217,25 @@ func EncodeModelsList(models []string) (string, error) {
 		return "", err
 	}
 	return string(b), nil
+}
+
+// dedupeStrings drops empty + duplicate entries, preserving first-seen
+// order. Used so the resolved model list never carries the same model id
+// twice (the SPA picker renders one row per entry).
+func dedupeStrings(in []string) []string {
+	seen := make(map[string]struct{}, len(in))
+	out := make([]string, 0, len(in))
+	for _, s := range in {
+		if s == "" {
+			continue
+		}
+		if _, ok := seen[s]; ok {
+			continue
+		}
+		seen[s] = struct{}{}
+		out = append(out, s)
+	}
+	return out
 }
 
 func decodeModelsList(raw string) ([]string, error) {

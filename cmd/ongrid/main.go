@@ -495,7 +495,7 @@ func main() {
 			APIKey:  cfg.OpenAI.APIKey,
 			Model:   firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"),
 			BaseURL: cfg.OpenAI.BaseURL,
-			Models:  []string{firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"), "gpt-4o", "gpt-4-turbo"},
+			Models:  dedupeModels(firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"), "gpt-4o", "gpt-4-turbo"),
 		})
 	}
 	if cfg.LLM.Anthropic.APIKey != "" {
@@ -590,7 +590,7 @@ func main() {
 		key  string
 		list []string
 	}{
-		{settingmodel.KeyOpenAIModels, []string{firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"), "gpt-4o", "gpt-4-turbo"}},
+		{settingmodel.KeyOpenAIModels, dedupeModels(firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"), "gpt-4o", "gpt-4-turbo")},
 		{settingmodel.KeyAnthropicModels, cfg.LLM.Anthropic.Models},
 		{settingmodel.KeyZhipuModels, cfg.LLM.Zhipu.Models},
 		{settingmodel.KeyGeminiModels, cfg.LLM.Gemini.Models},
@@ -620,7 +620,7 @@ func main() {
 			APIKey:  cfg.OpenAI.APIKey,
 			Model:   firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"),
 			BaseURL: cfg.OpenAI.BaseURL,
-			Models:  []string{firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"), "gpt-4o", "gpt-4-turbo"},
+			Models:  dedupeModels(firstNonEmpty(cfg.OpenAI.Model, "gpt-4o"), "gpt-4o", "gpt-4-turbo"),
 		},
 		settingmodel.LLMProviderAnthropic: {
 			Label:   "Anthropic",
@@ -2021,6 +2021,27 @@ func firstNonEmpty(vals ...string) string {
 		}
 	}
 	return ""
+}
+
+// dedupeModels returns vals with empty strings dropped and duplicates
+// removed, preserving first-seen order. The OpenAI model catalog is built
+// as [configuredModel, "gpt-4o", "gpt-4-turbo"]; out-of-box the configured
+// model defaults to "gpt-4o", which would otherwise list "gpt-4o" twice in
+// the SPA model picker.
+func dedupeModels(vals ...string) []string {
+	seen := make(map[string]struct{}, len(vals))
+	out := make([]string, 0, len(vals))
+	for _, v := range vals {
+		if v == "" {
+			continue
+		}
+		if _, ok := seen[v]; ok {
+			continue
+		}
+		seen[v] = struct{}{}
+		out = append(out, v)
+	}
+	return out
 }
 
 // chainInvestigators fans an incident out to multiple alert.Investigator
