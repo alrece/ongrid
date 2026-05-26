@@ -1,12 +1,12 @@
 # <img src="web/public/ongrid-logo.svg" alt="" width="44" style="vertical-align: middle;" /> ongrid
 
-[English](./README.md) | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국어](./README_KO.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | Deutsch | [Português](./README_PT.md) | [Русский](./README_RU.md)
+> **Installieren Sie auf jedem Host einen leichtgewichtigen Agenten und beheben Sie Störungen in natürlicher Sprache —— Alarme, Logs, Metriken, Traces, Topologie und Quellcode, gemeinsam analysiert von einem Cloud-AIOps-Agenten.**
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tech](https://img.shields.io/badge/Tech-Go%20%7C%20TypeScript%20%7C%20React-blue)](#tech-stack)
 
-> **Installieren Sie auf jedem Host einen leichtgewichtigen Agenten und beheben Sie Störungen in natürlicher Sprache —— Alarme, Logs, Metriken, Traces, Topologie und Quellcode, gemeinsam analysiert von einem Cloud-AIOps-Agenten.**
+[English](./README.md) | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국어](./README_KO.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | Deutsch | [Português](./README_PT.md) | [Русский](./README_RU.md)
 
 [Überblick](#überblick) • [Schnellstart](#schnellstart) • [Architektur](#architektur) • [Tech-Stack](#tech-stack) • [Mitwirken](#mitwirken)
 

@@ -1,12 +1,12 @@
 # <img src="web/public/ongrid-logo.svg" alt="" width="44" style="vertical-align: middle;" /> ongrid
 
-[English](./README.md) | [简体中文](./README_ZH.md) | 日本語 | [한국어](./README_KO.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
+> **各ホストに軽量エージェントを配置し、自然言語でトラブルシューティング —— アラート・ログ・メトリクス・トレース・トポロジー・ソースコードを、クラウドの AIOps エージェントがまとめて分析します。**
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tech](https://img.shields.io/badge/Tech-Go%20%7C%20TypeScript%20%7C%20React-blue)](#技術スタック)
 
-> **各ホストに軽量エージェントを配置し、自然言語でトラブルシューティング —— アラート・ログ・メトリクス・トレース・トポロジー・ソースコードを、クラウドの AIOps エージェントがまとめて分析します。**
+[English](./README.md) | [简体中文](./README_ZH.md) | 日本語 | [한국어](./README_KO.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
 
 [概要](#概要) • [クイックスタート](#クイックスタート) • [アーキテクチャ](#アーキテクチャ) • [技術スタック](#技術スタック) • [コントリビュート](#コントリビュート)
 

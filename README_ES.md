@@ -1,12 +1,12 @@
 # <img src="web/public/ongrid-logo.svg" alt="" width="44" style="vertical-align: middle;" /> ongrid
 
-[English](./README.md) | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국어](./README_KO.md) | Español | [Français](./README_FR.md) | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
+> **Pon un agente ligero en cada host y diagnostica en lenguaje natural —— alertas, logs, métricas, trazas, topología y código fuente, analizados en conjunto por un agente de AIOps en la nube.**
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tech](https://img.shields.io/badge/Tech-Go%20%7C%20TypeScript%20%7C%20React-blue)](#stack-tecnológico)
 
-> **Pon un agente ligero en cada host y diagnostica en lenguaje natural —— alertas, logs, métricas, trazas, topología y código fuente, analizados en conjunto por un agente de AIOps en la nube.**
+[English](./README.md) | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국어](./README_KO.md) | Español | [Français](./README_FR.md) | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
 
 [Visión general](#visión-general) • [Inicio rápido](#inicio-rápido) • [Arquitectura](#arquitectura) • [Stack tecnológico](#stack-tecnológico) • [Contribuir](#contribuir)
 

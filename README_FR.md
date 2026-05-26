@@ -1,12 +1,12 @@
 # <img src="web/public/ongrid-logo.svg" alt="" width="44" style="vertical-align: middle;" /> ongrid
 
-[English](./README.md) | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국어](./README_KO.md) | [Español](./README_ES.md) | Français | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
+> **Installez un agent léger sur chaque hôte, puis dépannez en langage naturel —— alertes, logs, métriques, traces, topologie et code source, analysés ensemble par un agent AIOps dans le cloud.**
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tech](https://img.shields.io/badge/Tech-Go%20%7C%20TypeScript%20%7C%20React-blue)](#stack-technique)
 
-> **Installez un agent léger sur chaque hôte, puis dépannez en langage naturel —— alertes, logs, métriques, traces, topologie et code source, analysés ensemble par un agent AIOps dans le cloud.**
+[English](./README.md) | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국어](./README_KO.md) | [Español](./README_ES.md) | Français | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
 
 [Aperçu](#aperçu) • [Démarrage rapide](#démarrage-rapide) • [Architecture](#architecture) • [Stack technique](#stack-technique) • [Contribuer](#contribuer)
 

@@ -1,12 +1,12 @@
 # <img src="web/public/ongrid-logo.svg" alt="" width="44" style="vertical-align: middle;" /> ongrid
 
-[English](./README.md) | 简体中文 | [日本語](./README_JA.md) | [한국어](./README_KO.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
+> **给每台主机装上一个轻量 agent，然后用自然语言排障 —— 告警、日志、指标、链路、拓扑、源码，交给云端的 AIOps Agent 一起分析。**
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tech](https://img.shields.io/badge/Tech-Go%20%7C%20TypeScript%20%7C%20React-blue)](#技术栈)
 
-> **给每台主机装上一个轻量 agent，然后用自然语言排障 —— 告警、日志、指标、链路、拓扑、源码，交给云端的 AIOps Agent 一起分析。**
+[English](./README.md) | 简体中文 | [日本語](./README_JA.md) | [한국어](./README_KO.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Deutsch](./README_DE.md) | [Português](./README_PT.md) | [Русский](./README_RU.md)
 
 [项目简介](#项目简介) • [快速开始](#快速开始) • [架构](#架构) • [技术栈](#技术栈) • [贡献](#贡献)
 
