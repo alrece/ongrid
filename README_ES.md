@@ -1,6 +1,8 @@
-# <img src="web/public/ongrid-logo.svg" alt="" width="30" style="vertical-align: middle;" /> ongrid
+# <img src="web/public/ongrid-logo.svg" alt="" width="40" align="absmiddle" style="vertical-align: middle;" /> ongrid
 
-> **Pon un agente ligero en cada host y diagnostica en lenguaje natural —— alertas, logs, métricas, trazas, topología y código fuente, analizados en conjunto por un agente de AIOps en la nube.**
+> **Un agente de IA para Operaciones.** Pon un agente ligero en cada host; Ongrid analiza tus métricas, logs, trazas, topología y código fuente para identificar la causa raíz en lenguaje natural.
+>
+> *Hecho para equipos de SRE, DevOps y plataforma.*
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -14,7 +16,7 @@
 
 ## Visión general
 
-ongrid es una plataforma de AIOps de código abierto y autoalojable. Un agente ligero `ongrid-edge` en cada host envía métricas, logs y trazas a la nube a través de un único túnel **saliente** multiplexado —— sin puertos entrantes en el host. La nube es un agente de operaciones impulsado por LLM: preguntas en lenguaje natural y él mismo ejecuta PromQL / LogQL / TraceQL, recorre la topología de servicios, busca en la base de conocimiento, lee el código fuente y llama a herramientas de host de solo lectura para devolver una respuesta fundamentada.
+Ongrid es un agente de IA para operaciones, de código abierto y autoalojable. Un agente ligero `ongrid-edge` en cada host envía métricas, logs y trazas a la nube a través de un único túnel **saliente** multiplexado —— sin puertos entrantes en el host. La nube es un agente de operaciones impulsado por LLM: preguntas en lenguaje natural y él mismo ejecuta PromQL / LogQL / TraceQL, recorre la topología de servicios, busca en la base de conocimiento, lee el código fuente y llama a herramientas de host de solo lectura para devolver una respuesta fundamentada.
 
 Qué resuelve:
 
@@ -25,6 +27,16 @@ Qué resuelve:
 - **Autoalojable** —— un solo `docker compose` levanta toda la pila; apunta el modelo a cualquier endpoint compatible con OpenAI.
 
 ## Inicio rápido
+
+**Instalar desde una release** —— repo privado, descarga con `gh`:
+
+```bash
+gh release download v0.7.158 --repo ongridio/ongrid -p 'ongrid-v0.7.158-linux-amd64.tar.gz*'
+tar xzf ongrid-v0.7.158-linux-amd64.tar.gz && cd ongrid-v0.7.158-linux-amd64
+sudo ./install.sh
+```
+
+**O ejecutar desde el código** (desarrollo local):
 
 ```bash
 # 1. configurar: define la cuenta de admin + una API key de modelo

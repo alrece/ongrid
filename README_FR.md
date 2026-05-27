@@ -1,6 +1,8 @@
-# <img src="web/public/ongrid-logo.svg" alt="" width="30" style="vertical-align: middle;" /> ongrid
+# <img src="web/public/ongrid-logo.svg" alt="" width="40" align="absmiddle" style="vertical-align: middle;" /> ongrid
 
-> **Installez un agent léger sur chaque hôte, puis dépannez en langage naturel —— alertes, logs, métriques, traces, topologie et code source, analysés ensemble par un agent AIOps dans le cloud.**
+> **Un agent IA pour les opérations.** Installez un agent léger sur chaque hôte ; Ongrid analyse vos métriques, logs, traces, topologie et code source pour identifier la cause racine en langage naturel.
+>
+> *Conçu pour les équipes SRE, DevOps et plateforme.*
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -14,7 +16,7 @@
 
 ## Aperçu
 
-ongrid est une plateforme AIOps open source et auto-hébergeable. Un agent léger `ongrid-edge` sur chaque hôte envoie métriques, logs et traces vers le cloud via un unique tunnel **sortant** multiplexé —— aucun port entrant sur l'hôte. Le cloud est un agent d'exploitation piloté par LLM : posez une question en langage naturel et il exécute lui-même les PromQL / LogQL / TraceQL, parcourt la topologie de services, interroge la base de connaissances, lit le code source et appelle des outils hôte en lecture seule pour fournir une réponse étayée.
+Ongrid est un agent IA pour les opérations, open source et auto-hébergeable. Un agent léger `ongrid-edge` sur chaque hôte envoie métriques, logs et traces vers le cloud via un unique tunnel **sortant** multiplexé —— aucun port entrant sur l'hôte. Le cloud est un agent d'exploitation piloté par LLM : posez une question en langage naturel et il exécute lui-même les PromQL / LogQL / TraceQL, parcourt la topologie de services, interroge la base de connaissances, lit le code source et appelle des outils hôte en lecture seule pour fournir une réponse étayée.
 
 Ce qu'il résout :
 
@@ -25,6 +27,16 @@ Ce qu'il résout :
 - **Auto-hébergeable** —— un seul `docker compose` démarre toute la pile ; pointez le modèle vers n'importe quel endpoint compatible OpenAI.
 
 ## Démarrage rapide
+
+**Installer depuis une release** —— dépôt privé, récupération avec `gh` :
+
+```bash
+gh release download v0.7.158 --repo ongridio/ongrid -p 'ongrid-v0.7.158-linux-amd64.tar.gz*'
+tar xzf ongrid-v0.7.158-linux-amd64.tar.gz && cd ongrid-v0.7.158-linux-amd64
+sudo ./install.sh
+```
+
+**Ou exécuter depuis les sources** (dev local) :
 
 ```bash
 # 1. configurer : définissez le compte admin + une clé API de modèle

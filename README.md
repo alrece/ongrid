@@ -1,6 +1,8 @@
-# <img src="web/public/ongrid-logo.svg" alt="" width="30" style="vertical-align: middle;" /> ongrid
+# <img src="web/public/ongrid-logo.svg" alt="" width="40" align="absmiddle" style="vertical-align: middle;" /> ongrid
 
-> **Put a lightweight agent on every host, then troubleshoot in natural language — alerts, logs, metrics, traces, topology, and source code, analyzed together by a cloud AIOps agent.**
+> **An AI agent for Operations.** Put a lightweight agent on every host; Ongrid reasons over your metrics, logs, traces, topology, and source code to pinpoint root cause in plain language.
+>
+> *Built for SRE, DevOps, and platform teams.*
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -14,7 +16,7 @@ English | [简体中文](./README_ZH.md) | [日本語](./README_JA.md) | [한국
 
 ## Overview
 
-ongrid is an open-source, self-hostable AIOps platform. A lightweight `ongrid-edge` agent on each host ships metrics, logs, and traces to the cloud over a single **outbound** tunnel — no inbound ports on the host. The cloud is an LLM-driven ops agent: ask in natural language and it runs the PromQL / LogQL / TraceQL, walks the service topology, searches the knowledge base, reads source code, and calls read-only host tools to return a grounded, evidence-backed answer.
+Ongrid is an open-source, self-hostable AI agent for operations. A lightweight `ongrid-edge` agent on each host ships metrics, logs, and traces to the cloud over a single **outbound** tunnel — no inbound ports on the host. The cloud is an LLM-driven ops agent: ask in natural language and it runs the PromQL / LogQL / TraceQL, walks the service topology, searches the knowledge base, reads source code, and calls read-only host tools to return a grounded, evidence-backed answer.
 
 What it solves:
 
@@ -25,6 +27,16 @@ What it solves:
 - **Self-hostable** — one `docker compose` brings up the full stack; point the model at any OpenAI-compatible endpoint.
 
 ## Quickstart
+
+**Install from a release** — private repo, pull with `gh`:
+
+```bash
+gh release download v0.7.158 --repo ongridio/ongrid -p 'ongrid-v0.7.158-linux-amd64.tar.gz*'
+tar xzf ongrid-v0.7.158-linux-amd64.tar.gz && cd ongrid-v0.7.158-linux-amd64
+sudo ./install.sh
+```
+
+**Or run from source** (local dev):
 
 ```bash
 # 1. configure: set the admin account + a model API key

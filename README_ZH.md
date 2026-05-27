@@ -1,6 +1,8 @@
-# <img src="web/public/ongrid-logo.svg" alt="" width="30" style="vertical-align: middle;" /> ongrid
+# <img src="web/public/ongrid-logo.svg" alt="" width="40" align="absmiddle" style="vertical-align: middle;" /> ongrid
 
-> **给每台主机装上一个轻量 agent，然后用自然语言排障 —— 告警、日志、指标、链路、拓扑、源码，交给云端的 AIOps Agent 一起分析。**
+> **面向运维的 AI Agent。** 给每台主机装上一个轻量 agent，Ongrid 综合分析你的指标、日志、链路、拓扑与源码，用自然语言直接定位根因。
+>
+> *为 SRE、DevOps 与平台团队打造。*
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/ongridio/ongrid)](https://goreportcard.com/report/github.com/ongridio/ongrid)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -14,7 +16,7 @@
 
 ## 项目简介
 
-ongrid 是一个开源、可私有化的 AIOps 平台。在每台主机上装一个轻量的 `ongrid-edge` agent，它通过一条多路复用的**出站**隧道把指标、日志、链路上报到云端 —— 主机侧不开任何入站端口。云端是一个 LLM 驱动的运维 Agent：你用自然语言提问，它自己去查 PromQL / LogQL / TraceQL、走业务拓扑、检索知识库、读源码、调用主机只读巡检工具，给出带证据链的回答。
+Ongrid 是一个开源、可私有化的、面向运维的 AI Agent。在每台主机上装一个轻量的 `ongrid-edge` agent，它通过一条多路复用的**出站**隧道把指标、日志、链路上报到云端 —— 主机侧不开任何入站端口。云端是一个 LLM 驱动的运维 Agent：你用自然语言提问，它自己去查 PromQL / LogQL / TraceQL、走业务拓扑、检索知识库、读源码、调用主机只读巡检工具，给出带证据链的回答。
 
 它主要解决：
 
@@ -25,6 +27,16 @@ ongrid 是一个开源、可私有化的 AIOps 平台。在每台主机上装一
 - **可私有化** —— 一键 `docker compose` 起一整套；模型可对接任意 OpenAI 兼容 endpoint。
 
 ## 快速开始
+
+**从 release 安装** —— 私有仓，用 `gh` 拉取：
+
+```bash
+gh release download v0.7.158 --repo ongridio/ongrid -p 'ongrid-v0.7.158-linux-amd64.tar.gz*'
+tar xzf ongrid-v0.7.158-linux-amd64.tar.gz && cd ongrid-v0.7.158-linux-amd64
+sudo ./install.sh
+```
+
+**或从源码运行**（本地开发）：
 
 ```bash
 # 1. 配置：设置管理员账号 + 一个模型 API key
