@@ -558,13 +558,7 @@ if [[ $NO_SEED -eq 0 ]]; then
 fi
 
 echo "${C_BOLD}Next steps:${C_RESET}"
-echo "  1. Login test (the -k flag tolerates the self-signed cert):"
-echo "       curl -sk -X POST ${API_URL}/auth/login \\"
-echo "            -H 'Content-Type: application/json' \\"
-echo "            -d '{\"email\":\"${ADMIN_EMAIL}\",\"password\":\"<paste-above>\"}'"
-echo "  2. Install edge on a target host:"
-echo "       scp -r $INSTALL_DIR/edge user@target:~/ongrid-edge && ssh user@target 'sudo ~/ongrid-edge/install-edge.sh'"
-echo "  3. Service management:"
+echo "  1. Service management:"
 echo "       sudo docker compose -f $INSTALL_DIR/docker-compose.yml logs -f ongrid"
 echo "       sudo docker compose -f $INSTALL_DIR/docker-compose.yml restart ongrid"
 echo ""
