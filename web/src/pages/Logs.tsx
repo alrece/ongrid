@@ -15,6 +15,7 @@ import {
 import { queryLogsRange, listLogLabels, type LokiStream } from '@/api/logs';
 import { ApiError } from '@/api/client';
 import { listEdges, type Edge, type EdgeRole } from '@/api/edges';
+import { onDevicesChanged } from '@/lib/events';
 import { Link } from 'react-router-dom';
 import { RoleSelect } from '@/components/ui';
 import { NLQueryHelper } from '@/components/NLQueryHelper';
@@ -400,18 +401,26 @@ export default function LogsPage() {
   // Load edge inventory once for the device dropdown. Best-effort —
   // failure just leaves the dropdown empty (operators can still type a
   // device_id directly into the LogQL box).
+  // Mount-fetch + subscribe to devices-changed: role chip expansion below
+  // depends on `edges` (role → device_id matcher), so a role edit on Edges
+  // page must propagate here, not just on a full page reload.
   useEffect(() => {
     let cancelled = false;
-    void (async () => {
-      try {
-        const r = await listEdges();
-        if (!cancelled) setEdges(r.items ?? []);
-      } catch {
-        // silent
-      }
-    })();
+    const load = () => {
+      void (async () => {
+        try {
+          const r = await listEdges();
+          if (!cancelled) setEdges(r.items ?? []);
+        } catch {
+          // silent
+        }
+      })();
+    };
+    load();
+    const unsubscribe = onDevicesChanged(load);
     return () => {
       cancelled = true;
+      unsubscribe();
     };
   }, []);
 
