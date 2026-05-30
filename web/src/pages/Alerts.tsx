@@ -314,9 +314,11 @@ function IncidentRow({
           </div>
         </Link>
       </td>
-      {/* Summary is the truncate-absorber. */}
+      {/* Summary is the truncate-absorber. title= gives the full text on
+          hover — summaries can be long (full PromQL + label set) and the
+          truncate cuts mid-expression. */}
       <td className="w-full max-w-0 px-4 py-2.5 text-zinc-300">
-        <div className="truncate">{incident.summary}</div>
+        <div className="truncate" title={incident.summary}>{incident.summary}</div>
       </td>
       <td className="whitespace-nowrap px-4 py-2.5 text-zinc-400">
         {/* Target stays simple: the device (name + id). Detail lives in the
