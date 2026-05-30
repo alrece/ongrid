@@ -26,6 +26,7 @@ import {
 } from '@/api/edges';
 import { getManagerVersion } from '@/api/version';
 import { usePermissions } from '@/store/me';
+import { notifyDevicesChanged } from '@/lib/events';
 import { useI18n } from '@/i18n/locale';
 
 // Sidebar headers that map to ?roles= filters. Empty string = "全部"; the
@@ -643,6 +644,10 @@ function RolesEditorModal({
       // backend doesn't care about order but tests are easier this way.
       const out = EDGE_ROLES.filter((r) => selected.has(r));
       await setEdgeRoles(edge.device_id, out);
+      // Notify ambient surfaces (Sidebar's role sub-items, etc.) that the
+      // fleet's role set may have changed. Sidebar refetches and the new
+      // chip appears without a page reload.
+      notifyDevicesChanged();
       onSaved();
     } catch (e) {
       setErr((e as Error).message || tr('保存失败', 'Save failed'));
