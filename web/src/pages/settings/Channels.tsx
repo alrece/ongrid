@@ -101,7 +101,7 @@ export default function SettingsChannels() {
         <div className="rounded-lg border border-zinc-800/60 bg-zinc-900/30 px-4 py-3 text-[12px] text-zinc-400">
           <div className="mb-1 flex items-center gap-2 text-zinc-200">
             <MessagesSquare size={14} className="text-zinc-400" />
-            <span className="font-medium">{tr('通信 — IM 双向 bot', 'Communications — IM bots (two-way)')}</span>
+            <span className="font-medium">{tr('渠道 — 双向 chat', 'Channels — two-way chat')}</span>
           </div>
           {tr(
             '配置飞书 / 钉钉 / Telegram / Slack 机器人，群里 @bot 或私聊就能开多轮会话。推荐 ',
@@ -138,10 +138,10 @@ export default function SettingsChannels() {
           </Card>
         ) : items.length === 0 ? (
           <EmptyState
-            title={tr('还没有 IM bot', 'No IM bots yet')}
+            title={tr('还没有渠道', 'No channels yet')}
             hint={tr(
-              '点上面"新建"配第一个机器人。stream 模式无需公网回调，最快上手。',
-              'Click "New" above to configure your first bot. Stream mode requires no public webhook URL.',
+              '点上面"新建"配第一个渠道。stream 模式无需公网回调，最快上手。',
+              'Click "New" above to configure your first channel. Stream mode requires no public webhook URL.',
             )}
           />
         ) : (
@@ -331,7 +331,7 @@ function IMAppEditor({
       open
       onClose={onClose}
       size="lg"
-      title={isCreate ? tr('新建 IM bot', 'New IM bot') : tr(`编辑 — ${target!.name}`, `Edit — ${target!.name}`)}
+      title={isCreate ? tr('新建渠道', 'New channel') : tr(`编辑 — ${target!.name}`, `Edit — ${target!.name}`)}
       footer={
         <>
           <button
@@ -533,7 +533,7 @@ function IMAppEditor({
             onChange={(e) => setEnabled(e.target.checked)}
             className="h-3.5 w-3.5 rounded border-zinc-700 bg-zinc-900"
           />
-          {tr('启用此 bot', 'Enable this bot')}
+          {tr('启用此渠道', 'Enable this channel')}
         </label>
 
         {mode === 'webhook' && (
