@@ -386,7 +386,7 @@ function IMAppEditor({
               onChange={(e) => setMode(e.target.value as IMMode)}
               className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-2 py-1.5 text-xs text-zinc-100 focus:border-zinc-600 focus:outline-none"
             >
-              <option value="stream">stream (推荐 / recommended)</option>
+              <option value="stream">{tr('stream（推荐）', 'stream (recommended)')}</option>
               {provider !== 'telegram' && provider !== 'slack' && <option value="webhook">webhook</option>}
             </select>
           </Field>
