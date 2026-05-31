@@ -31,15 +31,16 @@ func NewUC(repo AdminRepo) *UC { return &UC{repo: repo} }
 
 // AppInput is the mutation payload.
 type AppInput struct {
-	Provider    string
-	Mode        string
-	Name        string
-	AppID       string
-	AppSecret   string
-	VerifyToken string
-	EncryptKey  string
-	AllowFrom   string // Telegram sender allowlist (numeric user IDs); see ParseAllowFrom
-	Enabled     bool
+	Provider      string
+	Mode          string
+	Name          string
+	AppID         string
+	AppSecret     string
+	VerifyToken   string
+	EncryptKey    string
+	AllowFrom     string // Telegram / Slack sender allowlist; see ParseAllowFrom
+	Enabled       bool
+	DefaultLocale string // "" | "en" | "zh" — see model.ImApp.DefaultLocale
 }
 
 // ParseAllowFrom splits a raw allowlist (comma / space / newline / semicolon
@@ -87,6 +88,21 @@ func (in *AppInput) validate() error {
 	default:
 		return fmt.Errorf("%w: provider must be feishu, dingtalk, telegram, or slack", errs.ErrInvalid)
 	}
+	// Normalize + whitelist default_locale. Empty = no directive
+	// (LLM mirrors the user) — the legacy / "auto" mode. Anything outside
+	// {en, zh} is rejected so a typo'd "EN-us" doesn't silently degrade
+	// to no-directive behaviour. Strip the region tag down to the primary
+	// subtag so en-US / zh-CN are also accepted.
+	loc := strings.ToLower(strings.TrimSpace(in.DefaultLocale))
+	if loc != "" {
+		loc = strings.SplitN(loc, "-", 2)[0]
+		switch loc {
+		case "en", "zh":
+		default:
+			return fmt.Errorf("%w: default_locale must be empty (auto), en, or zh", errs.ErrInvalid)
+		}
+	}
+	in.DefaultLocale = loc
 	mode := strings.ToLower(strings.TrimSpace(in.Mode))
 	if mode == "" {
 		mode = model.ModeStream
@@ -179,17 +195,18 @@ func (uc *UC) CreateApp(ctx context.Context, in AppInput) (*model.ImApp, error) 
 	}
 	now := time.Now().UTC()
 	app := &model.ImApp{
-		Provider:    in.Provider,
-		Mode:        in.Mode,
-		Name:        in.Name,
-		AppID:       in.AppID,
-		AppSecret:   in.AppSecret,
-		VerifyToken: in.VerifyToken,
-		EncryptKey:  in.EncryptKey,
-		AllowFrom:   in.AllowFrom,
-		Enabled:     in.Enabled,
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		Provider:      in.Provider,
+		Mode:          in.Mode,
+		Name:          in.Name,
+		AppID:         in.AppID,
+		AppSecret:     in.AppSecret,
+		VerifyToken:   in.VerifyToken,
+		EncryptKey:    in.EncryptKey,
+		AllowFrom:     in.AllowFrom,
+		Enabled:       in.Enabled,
+		DefaultLocale: in.DefaultLocale,
+		CreatedAt:     now,
+		UpdatedAt:     now,
 	}
 	if err := uc.repo.CreateApp(ctx, app); err != nil {
 		return nil, fmt.Errorf("create im_app: %w", err)
@@ -218,6 +235,7 @@ func (uc *UC) UpdateApp(ctx context.Context, id uint64, in AppInput) (*model.ImA
 	cur.EncryptKey = in.EncryptKey
 	cur.AllowFrom = in.AllowFrom
 	cur.Enabled = in.Enabled
+	cur.DefaultLocale = in.DefaultLocale
 	cur.UpdatedAt = time.Now().UTC()
 	if err := uc.repo.UpdateApp(ctx, cur); err != nil {
 		return nil, fmt.Errorf("update im_app: %w", err)

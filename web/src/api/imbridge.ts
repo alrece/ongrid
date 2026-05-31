@@ -20,8 +20,12 @@ export type IMApp = {
   has_secret: boolean;
   verify_token?: string;
   encrypt_key?: string;
-  // Telegram sender allowlist: comma-separated numeric Telegram user IDs.
+  // Telegram / Slack sender allowlist.
   allow_from?: string;
+  // Empty = "auto" (LLM mirrors the user). "en" / "zh" pins the reply
+  // language regardless of persona — bridge appends a directive to every
+  // inbound user message. Mirrors the RCA-side locale knob.
+  default_locale?: '' | 'en' | 'zh';
   enabled: boolean;
   idle_timeout_seconds: number;
   created_at: string;
@@ -38,6 +42,7 @@ export type IMAppPayload = {
   verify_token?: string;
   encrypt_key?: string;
   allow_from?: string;
+  default_locale?: '' | 'en' | 'zh';
   enabled: boolean;
 };
 

@@ -156,6 +156,14 @@ func (c *StreamClient) Run(ctx context.Context) error {
 			c.log.Warn("slack ws: decode envelope", slog.Any("err", uerr))
 			continue
 		}
+		// Debug log every envelope so an operator can tell whether Slack
+		// pushed nothing vs. pushed a kind we didn't handle. Slack-side
+		// retries are bounded by our ack, so even a busy workspace logs
+		// no more than ~1 line per inbound action.
+		c.log.Info("slack envelope received",
+			slog.String("envelope_type", env.Type),
+			slog.String("envelope_id", env.EnvelopeID),
+			slog.Int("retry_attempt", env.RetryAttempt))
 		// ack FIRST, handle second. Slack times the ack window from
 		// envelope delivery (~3s); handing inbound off to the bridge
 		// before ack would race that and trigger Slack-side retries.
@@ -199,6 +207,16 @@ func (c *StreamClient) handleEvent(payload json.RawMessage) {
 		return
 	}
 	ev := p.Event
+	// Log every events_api event we get so operators can see what's
+	// being sent (and what's being filtered). team_id and channel are
+	// useful when one Slack app drives multiple workspaces or rooms.
+	c.log.Info("slack events_api event",
+		slog.String("event_type", ev.Type),
+		slog.String("subtype", ev.Subtype),
+		slog.String("channel", ev.Channel),
+		slog.String("user", ev.User),
+		slog.Bool("has_bot_id", ev.BotID != ""),
+		slog.Int("text_len", len(ev.Text)))
 	if ev.Type != "message" && ev.Type != "app_mention" {
 		return
 	}

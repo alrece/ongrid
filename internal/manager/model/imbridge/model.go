@@ -74,6 +74,14 @@ type ImApp struct {
 	// conversation context window" work might re-introduce it as a
 	// soft window cap rather than a hard rotate. 0 = no behaviour.
 	IdleTimeoutSeconds int  `gorm:"column:idle_timeout_seconds;not null;default:0"`
+	// DefaultLocale picks the language directive the bridge appends to
+	// every user message before handing off to the agent — so a Slack
+	// workspace whose admin set this to "en" gets English replies even
+	// though the agent persona is written in Chinese. Empty = no
+	// directive (LLM mirrors the user). Accepted: "en", "zh".
+	// Mirrors [[feedback_ai_output_locale]] for the IM path; RCA has its
+	// own Config.DefaultLocale on the investigator usecase.
+	DefaultLocale      string    `gorm:"column:default_locale;size:8;not null;default:''"`
 	Enabled     bool      `gorm:"not null;default:true"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

@@ -252,6 +252,7 @@ function IMAppEditor({
   const [verifyToken, setVerifyToken] = useState(target?.verify_token ?? '');
   const [encryptKey, setEncryptKey] = useState(target?.encrypt_key ?? '');
   const [allowFrom, setAllowFrom] = useState(target?.allow_from ?? '');
+  const [defaultLocale, setDefaultLocale] = useState<'' | 'en' | 'zh'>(target?.default_locale ?? '');
   const [enabled, setEnabled] = useState(target?.enabled ?? true);
   const [revealedSecret, setRevealedSecret] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -309,6 +310,7 @@ function IMAppEditor({
         verify_token: verifyToken.trim() || undefined,
         encrypt_key: encryptKey.trim() || undefined,
         allow_from: provider === 'telegram' || provider === 'slack' ? allowFrom.trim() || undefined : undefined,
+        default_locale: defaultLocale || undefined,
         enabled,
       };
       if (isCreate) {
@@ -509,6 +511,24 @@ function IMAppEditor({
             />
           </Field>
         )}
+
+        <Field
+          label={tr('回复语言', 'Reply language')}
+          hint={tr(
+            '渠道内 agent 回复的语言。"自动" 让模型镜像用户输入；选 中文 / English 会在每条消息后追加语言指令,覆盖 persona 默认语言。',
+            'Language the agent replies in. "Auto" lets the model mirror the user; choosing 中文 / English appends a directive to every incoming message, overriding the persona\'s default.',
+          )}
+        >
+          <select
+            value={defaultLocale}
+            onChange={(e) => setDefaultLocale(e.target.value as '' | 'en' | 'zh')}
+            className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-2 py-1.5 text-xs text-zinc-100 focus:border-zinc-600 focus:outline-none"
+          >
+            <option value="">{tr('自动（跟随用户）', 'Auto (mirror user)')}</option>
+            <option value="zh">{tr('中文', '中文')}</option>
+            <option value="en">{tr('English', 'English')}</option>
+          </select>
+        </Field>
 
         {mode === 'webhook' && provider === 'feishu' && (
           <div className="grid grid-cols-2 gap-3">
