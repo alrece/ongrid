@@ -58,7 +58,9 @@ export default function ReportDetailPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
+    <main className="anim-fade flex flex-1 flex-col overflow-hidden">
+      <div className="flex-1 overflow-y-auto px-6 py-5">
+        <div className="mx-auto max-w-4xl">
       <Link to="/reports" className="mb-4 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300">
         <ArrowLeft size={13} /> {tr('返回报告列表', 'Back to reports')}
       </Link>
@@ -147,6 +149,8 @@ export default function ReportDetailPage() {
           </div>
         </div>
       )}
-    </div>
+        </div>
+      </div>
+    </main>
   );
 }

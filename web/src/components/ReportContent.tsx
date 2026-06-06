@@ -193,8 +193,32 @@ function ActionsPanel({ a }: { a: ActionsSummary }) {
 export function ReportContentView({ content }: { content: ReportContentT }) {
   const { tr } = useI18n();
   const paras: Paragraph[] = content.narrative?.paragraphs ?? [];
+  const incidents = content.key_incidents ?? [];
+  const advice = content.advice ?? [];
+  const incidentCount = heroValue(content.hero, 'incidents');
+  // A calm report = no incidents this period. Drives the top banner.
+  const calm = incidents.length === 0 && incidentCount === 0;
+
   return (
     <div className="space-y-6">
+      {/* Status banner — makes a calm report read as intentional. */}
+      <div
+        className={cn(
+          'flex items-center gap-2.5 rounded-lg border px-4 py-2.5 text-sm',
+          calm
+            ? 'border-emerald-600/30 bg-emerald-500/10 text-emerald-200'
+            : 'border-amber-600/30 bg-amber-500/10 text-amber-100',
+        )}
+      >
+        <span className="text-base">{calm ? '✓' : '⚠'}</span>
+        <span>
+          {calm
+            ? tr('本周期运行平稳，未发生 incident', 'Smooth period — no incidents')
+            : tr(`本周期共 ${incidents.length} 项关键 incident`, `${incidents.length} key incident(s) this period`)}
+        </span>
+      </div>
+
+      {/* Hero stats */}
       {content.hero && content.hero.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {content.hero.map((h) => (
@@ -203,42 +227,53 @@ export function ReportContentView({ content }: { content: ReportContentT }) {
         </div>
       )}
 
+      {/* Narrative */}
       {content.narrative?.headline && (
         <section>
           <h2 className="mb-2 text-base font-semibold text-zinc-100">📝 {content.narrative.headline}</h2>
-          <div className="space-y-2 text-sm leading-relaxed text-zinc-300">
-            {paras.map((p, i) => (
-              <p key={i}>
-                <EntityText text={p.text} />
-              </p>
-            ))}
-          </div>
+          {paras.length > 0 && (
+            <div className="space-y-2 text-sm leading-relaxed text-zinc-300">
+              {paras.map((p, i) => (
+                <p key={i}>
+                  <EntityText text={p.text} />
+                </p>
+              ))}
+            </div>
+          )}
         </section>
       )}
 
-      {content.key_incidents && content.key_incidents.length > 0 && (
-        <section>
-          <h3 className="mb-2 text-sm font-medium text-zinc-400">🚨 {tr('关键 incidents', 'Key incidents')}</h3>
+      {/* Incidents — always shown, positive empty state when calm */}
+      <section>
+        <h3 className="mb-2 text-sm font-medium text-zinc-400">🚨 {tr('关键 incidents', 'Key incidents')}</h3>
+        {incidents.length > 0 ? (
           <div className="space-y-1.5">
-            {content.key_incidents.map((ki) => (
+            {incidents.map((ki) => (
               <IncidentRow key={ki.id} ki={ki} />
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <EmptyRow text={tr('本周期内无 incident', 'No incidents this period')} />
+        )}
+      </section>
 
-      {content.actions_summary && (
-        <section>
-          <h3 className="mb-2 text-sm font-medium text-zinc-400">⚡ {tr('Agent 执行动作', 'Agent actions')}</h3>
+      {/* Agent actions — always shown */}
+      <section>
+        <h3 className="mb-2 text-sm font-medium text-zinc-400">⚡ {tr('Agent 执行动作', 'Agent actions')}</h3>
+        {content.actions_summary &&
+        (content.actions_summary.mutating_total > 0 || content.actions_summary.safe_total > 0) ? (
           <ActionsPanel a={content.actions_summary} />
-        </section>
-      )}
+        ) : (
+          <EmptyRow text={tr('本周期内 agent 未执行动作', 'No agent actions this period')} />
+        )}
+      </section>
 
-      {content.advice && content.advice.length > 0 && (
-        <section>
-          <h3 className="mb-2 text-sm font-medium text-zinc-400">🎯 {tr('下一步建议', 'Recommendations')}</h3>
+      {/* Recommendations */}
+      <section>
+        <h3 className="mb-2 text-sm font-medium text-zinc-400">🎯 {tr('下一步建议', 'Recommendations')}</h3>
+        {advice.length > 0 ? (
           <ul className="space-y-1.5 text-sm text-zinc-300">
-            {content.advice.map((a, i) => (
+            {advice.map((a, i) => (
               <li key={i} className="flex gap-2">
                 <span className="text-indigo-400">•</span>
                 <span>
@@ -247,8 +282,22 @@ export function ReportContentView({ content }: { content: ReportContentT }) {
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        ) : (
+          <EmptyRow text={tr('暂无建议，保持现状即可', 'No recommendations — keep steady')} />
+        )}
+      </section>
+    </div>
+  );
+}
+
+function heroValue(hero: HeroStat[] | undefined, key: string): number {
+  return hero?.find((h) => h.key === key)?.value ?? 0;
+}
+
+function EmptyRow({ text }: { text: string }) {
+  return (
+    <div className="rounded-md border border-dashed border-zinc-800 bg-zinc-900/20 px-3 py-3 text-sm text-zinc-500">
+      {text}
     </div>
   );
 }

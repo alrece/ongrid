@@ -73,35 +73,42 @@ export default function ReportSchedulesPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
-      <Link to="/reports" className="mb-4 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300">
-        <ArrowLeft size={13} /> {tr('返回报告', 'Back to reports')}
-      </Link>
-
-      <div className="mb-5 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <CalendarClock size={20} className="text-indigo-400" />
-          <h1 className="text-lg font-semibold text-zinc-100">{tr('报告排程', 'Report schedules')}</h1>
+    <main className="anim-fade flex flex-1 flex-col overflow-hidden">
+      <header className="app-header border-b border-zinc-800 px-6 py-4">
+        <Link to="/reports" className="mb-2 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300">
+          <ArrowLeft size={13} /> {tr('返回报告', 'Back to reports')}
+        </Link>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="flex items-center gap-2 text-base font-semibold text-zinc-100">
+              <CalendarClock size={18} className="text-indigo-400" />
+              {tr('定时生成', 'Scheduled')}
+            </h1>
+            <p className="mt-0.5 text-xs text-zinc-500">
+              {tr('按日/周/月定时自动生成报告并投递', 'Auto-generate and deliver reports on a daily/weekly/monthly cadence')}
+            </p>
+          </div>
+          {canMutate && (
+            <button
+              type="button"
+              onClick={() => setCreating(true)}
+              className="inline-flex items-center gap-1.5 rounded-md border border-indigo-600 bg-indigo-600/20 px-2.5 py-1.5 text-xs text-indigo-200 hover:bg-indigo-600/30"
+            >
+              <Plus size={12} /> {tr('新建', 'New')}
+            </button>
+          )}
         </div>
-        {canMutate && (
-          <button
-            type="button"
-            onClick={() => setCreating(true)}
-            className="inline-flex items-center gap-1.5 rounded-md border border-indigo-600 bg-indigo-600/20 px-3 py-1.5 text-xs text-indigo-200 hover:bg-indigo-600/30"
-          >
-            <Plus size={13} /> {tr('新建排程', 'New schedule')}
-          </button>
-        )}
-      </div>
+      </header>
 
+      <div className="flex-1 overflow-y-auto px-6 py-5">
       {loading ? (
         <div className="py-16 text-center text-sm text-zinc-500">{tr('加载中…', 'Loading…')}</div>
       ) : items.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-zinc-800 py-16 text-center text-sm text-zinc-400">
-          {tr('还没有排程。新建一个日报/周报排程。', 'No schedules yet. Create a daily/weekly schedule.')}
+        <div className="mx-auto max-w-2xl rounded-lg border border-dashed border-zinc-800 py-16 text-center text-sm text-zinc-400">
+          {tr('还没有定时任务。新建一个日报/周报定时生成。', 'No schedules yet. Create a daily/weekly scheduled report.')}
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="mx-auto max-w-3xl space-y-2">
           {items.map((s) => (
             <div key={s.id} className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -162,7 +169,8 @@ export default function ReportSchedulesPage() {
           }}
         />
       )}
-    </div>
+      </div>
+    </main>
   );
 }
 
